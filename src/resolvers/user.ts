@@ -1,30 +1,32 @@
 import axios from "axios";
-const DATA_URL =
-  "https://s3-eu-west-1.amazonaws.com/sentiance.solutions/datasets/public/user1.json";
+import endOfDay from "date-fns/endOfDay";
+import startOfDay from "date-fns/startOfDay";
 
 export default {
   Query: {
-    saveData: async (parent: any, args: any, context: any) => {
+    getEventMoments: async (parent: any, args: any, context: any) => {
+      const { id } = args;
       const { models } = context;
-      console.log(models);
-      let data = await axios.get(DATA_URL);
-      const { event_history, moment_history, segments } = data.data.data.user;
-      let UserModel = models.User({
-        event_history: event_history[0],
-        moment_history: moment_history[0],
-        segments: segments[0],
-      });
-      // await UserModel.save();
-      await UserModel.event_history.insertMany(event_history);
-      await UserModel.moment_history.insertMany(moment_history);
-      await UserModel.segments.insertMany(segments);
+      try {
+        const { date } = args;
+        const { models } = context;
+        let data = await models.EventHistory.findById(id);
+        let moments = await models.MomentHistory.find({
+          start: {
+            $gte: data.start,
+          },
+          end: {
+            $lte: data.end,
+          },
+        });
 
-      await UserModel.save();
-
-      //   let userData = models.User.insertMany(data.data.data.user);
-      //   await userData.save();
-      //   console.log(userData);
-      return data.data.data.user;
+        return {
+          event: data,
+          moment_history: moments,
+        };
+      } catch (e) {
+        throw new Error(e);
+      }
     },
   },
 };
