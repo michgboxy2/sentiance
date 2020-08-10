@@ -20,26 +20,6 @@ const {
   PORT = 3000,
 } = process.env;
 
-// const schema = gql`
-//   type Query {
-//     me: User
-//   }
-
-//   type User {
-//     username: String!
-//   }
-// `;
-
-// const resolvers = {
-//   Query: {
-//     me: () => {
-//       return {
-//         username: "Robin Wieruch",
-//       };
-//     },
-//   },
-// };
-
 const start = async () => {
   if (!MONGO_USER) {
     throw new Error("mongodb username must be set");

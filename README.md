@@ -13,8 +13,11 @@ Implementing a Redis Cache so every query doesn't have to be fetched from the da
 
 Index Data into an ELK (Elastic search, logstash, Kibana) for faster queries for large data.
 
+///////////////////TIME CONSTRAINT//////////////////
+More time would have allowed me time for tests.
+
 ////////////////////ASSUMPTIONS///////////////////////
-To implement the queries for the list of moments associated to an event, since there is no direct relationship between the moment_history and event history dataset, I made the assumption that the relationship is in the start and end date. Hence the mements for a particular event are the moments that has their start and end date within the event duration.
+To implement the queries for the list of moments associated to an event, since there is no direct relationship between the moment_history and event history dataset, I made the assumption that the relationship is in the start and end date. Hence the moments for a particular event are the moments that has their start and end date within the event duration.
 
 //////////////////////Technical questions///////////////
 
